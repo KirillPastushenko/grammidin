@@ -154,7 +154,7 @@ function _inheritsLoose(subClass, superClass) {
 var _config = {
   autoSleep: 120,
   force3D: "auto",
-  nullTargetWarn: 1,
+  nullTargetWarn: 0,
   units: {
     lineHeight: ""
   }
