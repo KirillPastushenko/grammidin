@@ -1,4 +1,4 @@
-const PDF_LINK = 'http://pdf.pdf';
+const PDF_LINK = 'pdf/Раскраска.pdf';
 
 function animateTasteItems() {
    let currentIndex = -1;
