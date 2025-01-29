@@ -1,10 +1,11 @@
+const PDF_LINK = 'http://pdf.pdf';
+
 function animateTasteItems() {
    let currentIndex = -1;
    const items = $('.taste-animation-item');
    const itemCount = items.length;
 
    function switchActiveItem() {
-      console.log('switchActiveItem');
        if (currentIndex >= 0) {
            items.eq(currentIndex).removeClass('active');
        }
@@ -21,7 +22,9 @@ function animateTasteItems() {
 
 
 $(document).ready(function(){
-   AOS.init();
+   AOS.init({
+      once: true, 
+   });
    animateTasteItems();
    $('h1 span').addClass('reveal-text');
    $('.top-pic').addClass('fromLeft');
@@ -64,7 +67,7 @@ $(document).ready(function(){
 
          if($('.paint-palitra-item.disable').length === 6) {
             $('.btn-paint')
-               .attr({'href':'http://pdf.pdf', '_target': 'blank'})
+               .attr({'href':PDF_LINK, '_target': 'blank'})
                .addClass('btn-orange')
                .removeClass('active');
             
