@@ -44,6 +44,8 @@ $(document).ready(function(){
    })
 
    $('.paint-palitra-item').on('click', function(){
+      $('.paint-palitra-item').removeClass('active');
+      
       if(!$(this).hasClass('disable')) {
          const id = $(this).attr('data-id');
          $('#buttons .button').removeClass('clickable');
