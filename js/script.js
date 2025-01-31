@@ -75,9 +75,8 @@ $(document).ready(function(){
             .addClass('disable');
 
          if($('.paint-palitra-item.disable').length === 6) {
-            $('.btn-paint')
-               .attr({'href':PDF_LINK, '_target': 'blank'})
-               .addClass('btn-orange')
+            $('.btn-paint').addClass('btn-orange')
+            $('.btn-paint a').attr({'href':PDF_LINK, '_target': 'blank'})
                  
             $('.btn-paint span').text('Хочу скачать!');
             $('.btn-paint img').attr('src', 'img/btn-pdf.png');
