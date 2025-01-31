@@ -43,6 +43,13 @@ $(document).ready(function(){
       $('.paint-wrapper, .paint-poster1, .paint-poster2, .btn-paint').toggleClass('active');
    })
 
+   $('.paint-wrapper, paint-poster2').on('click', function(){
+      if(!$(this).hasClass('active')){
+            $('.paint-wrapper, .paint-poster1, .paint-poster2, .btn-paint').addClass('active');
+            $('.btn-paint span').text('Завершить');
+      }
+   })
+
    $('.paint-palitra-item').on('click', function(){
       $('.paint-palitra-item').removeClass('active');
       
@@ -50,7 +57,7 @@ $(document).ready(function(){
          const id = $(this).attr('data-id');
          $('#buttons .button').removeClass('clickable');
          $(`.button.${id}`).addClass('clickable');
-         $('#paint').addClass('with-brush');
+         $('#paint').attr('data-brush',id);
 
          $(this).addClass('active');
       }
@@ -71,8 +78,7 @@ $(document).ready(function(){
             $('.btn-paint')
                .attr({'href':PDF_LINK, '_target': 'blank'})
                .addClass('btn-orange')
-               .removeClass('active');
-            
+                 
             $('.btn-paint span').text('Хочу скачать!');
             $('.btn-paint img').attr('src', 'img/btn-pdf.png');
          }
