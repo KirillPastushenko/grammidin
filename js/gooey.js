@@ -1,4 +1,7 @@
 (function() {
+
+	if (window.innerWidth <= 768) return;
+
 	const containers = document.querySelectorAll('.gooey-container');
 	const MARGIN = 50;
 	const size = 100;
