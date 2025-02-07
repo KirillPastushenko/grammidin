@@ -3,7 +3,7 @@
 	if (window.innerWidth <= 768) return;
 
 	const containers = document.querySelectorAll('.gooey-container');
-	const MARGIN = 50;
+	const MARGIN = 100;
 	const size = 100;
 
 	document.body.insertAdjacentHTML(
@@ -11,7 +11,7 @@
 		`<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position:absolute; height:0">
 			<defs>
 				<filter id="gooey">
-					<fegaussianblur in="SourceGraphic" stddeviation="10" result="blur" />
+					<fegaussianblur in="SourceGraphic" stddeviation="6" result="blur" />
 					<fecolormatrix
 						in="blur"
 						mode="matrix"
@@ -19,7 +19,7 @@
 							1 0 0 0 0
 							0 1 0 0 0
 							0 0 1 0 0
-							0 0 0 20 -10
+							0 0 0 20 -11
 						"
 						result="goo"
 					/>
@@ -31,8 +31,8 @@
 
 	function calcDistance(mouse, bounds) {
 		const { clientX: mX, clientY: mY } = mouse;
-		const distanceXLeft = Math.min(1, (mX - (bounds.x - MARGIN)) / (MARGIN + bounds.width / 2));
-		const distanceXRight = Math.min(1, -(mX - (bounds.x + bounds.width + MARGIN)) / (MARGIN + bounds.width / 2));
+		const distanceXLeft = Math.min(1, (mX - (bounds.x - MARGIN - MARGIN )) / (MARGIN + MARGIN + bounds.width / 2));
+		const distanceXRight = Math.min(1, -(mX - (bounds.x + bounds.width + MARGIN + MARGIN)) / (MARGIN + MARGIN + bounds.width / 2));
 		const distanceYTop = Math.min(1, (mY - (bounds.y - MARGIN)) / (MARGIN + bounds.height / 2));
 		const distanceYBottom = Math.min(1, -(mY - (bounds.y + bounds.height + MARGIN)) / (MARGIN + bounds.height / 2));
 		return Math.min(distanceXLeft, distanceXRight, distanceYTop, distanceYBottom);
