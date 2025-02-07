@@ -19,13 +19,23 @@ function animateTasteItems() {
    setInterval(switchActiveItem, 4000);
 }
 
-
-
-$(document).ready(function(){
    AOS.init({
       once: true, 
    });
-   animateTasteItems();
+
+   animateTasteItems();   
+   
+   document.addEventListener('aos:in', ({ detail }) => {
+          console.log(detail);
+   });
+
+
+$(document).ready(function(){
+
+
+
+ 
+ 
    $('h1 span').addClass('reveal-text');
    $('.top-pic').addClass('fromLeft');
 
@@ -84,3 +94,58 @@ $(document).ready(function(){
       }
    })
 })
+
+
+
+
+// Анимация пчелы
+
+document.addEventListener('DOMContentLoaded', () => {
+   const path1 = document.getElementById('path1');
+   const path2 = document.getElementById('path2');
+   const bee = document.getElementById('bee');
+   
+   // Рассчитываем длины путей
+   const path1Length = path1.getTotalLength();
+   const path2Length = path2.getTotalLength();
+   
+   // Настройка анимации для path1
+   path1.style.strokeDasharray = path1Length;
+   path1.style.strokeDashoffset = path1Length;
+   
+   // Начальная позиция пчелы
+   const startPoint = path2.getPointAtLength(0);
+   bee.setAttribute('x', startPoint.x - 25);
+   bee.setAttribute('y', startPoint.y - 25);
+   
+   let startTime = Date.now();
+   
+   const animate = () => {
+       const elapsed = Date.now() - startTime;
+       const progress = Math.min(elapsed / 2000, 1);
+       
+       // Анимация обводки path1
+       path1.style.strokeDashoffset = path1Length * (1 - progress);
+       
+       // Анимация движения пчелы
+       const currentLength = progress * path2Length;
+       const point = path2.getPointAtLength(currentLength);
+       
+       // Рассчет угла поворота
+       const nextPoint = path2.getPointAtLength(
+           Math.min(currentLength + 1, path2Length)
+       );
+       const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
+       
+       // Обновление позиции и поворота пчелы
+       bee.setAttribute('x', point.x - 25);
+       bee.setAttribute('y', point.y - 25);
+       bee.setAttribute('transform', `rotate(${angle} ${point.x} ${point.y})`);
+       
+       if (progress < 1) {
+           requestAnimationFrame(animate);
+       }
+   };
+   
+   requestAnimationFrame(animate);
+});
