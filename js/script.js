@@ -19,23 +19,21 @@ function animateTasteItems() {
    setInterval(switchActiveItem, 4000);
 }
 
+
+
+$(document).ready(function(){
+ 
    AOS.init({
       once: true, 
    });
 
-   animateTasteItems();   
+      
    
    document.addEventListener('aos:in', ({ detail }) => {
-          console.log(detail);
-   });
+      if (detail.id === 'taste') animateTasteItems();;
+  });
 
 
-$(document).ready(function(){
-
-
-
- 
- 
    $('h1 span').addClass('reveal-text');
    $('.top-pic').addClass('fromLeft');
 
