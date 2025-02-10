@@ -27,15 +27,15 @@ $(document).ready(function(){
       once: true, 
    });
 
-      
-   
    document.addEventListener('aos:in', ({ detail }) => {
       if (detail.id === 'taste') animateTasteItems();;
-  });
+   });
 
 
    $('h1 span').addClass('reveal-text');
    $('.top-pic').addClass('fromLeft');
+
+
 
    $('.btn-paint').on('click', function(e){
       const isActive = $(this).hasClass('active');
@@ -77,10 +77,11 @@ $(document).ready(function(){
 
          $(this).addClass('active').addClass('disable');
          $(this).removeClass('clickable');
-         $('#paint').removeClass('with-brush');
+         $('#paint').removeClass('with-brush').attr('data-brush', '');
          $(`.paint-palitra-item[data-id="${id}"]`)
             .removeClass('active')
             .addClass('disable');
+            
 
          if($('.paint-palitra-item.disable').length === 6) {
             $('.btn-paint').addClass('btn-orange')
@@ -139,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
        bee.setAttribute('x', point.x - 25);
        bee.setAttribute('y', point.y - 25);
        bee.setAttribute('transform', `rotate(${angle} ${point.x} ${point.y})`);
-       
-       if (progress < 1) {
+ 
+       if (progress < 0.99) {
            requestAnimationFrame(animate);
        }
    };
