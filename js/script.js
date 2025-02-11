@@ -19,7 +19,42 @@ function animateTasteItems() {
    setInterval(switchActiveItem, 4000);
 }
 
-
+$(function() {
+   const $taste = $('#taste');
+   let isTriggered = false; // Флаг для однократного срабатывания
+ 
+   function checkConditions() {
+     const scrollTop = $(window).scrollTop();
+     const windowHeight = $(window).height();
+     const tasteOffset = $taste.offset().top;
+     const tasteHeight = $taste.outerHeight();
+ 
+     // Проверка двух условий:
+     // 1. Элемент виден в viewport (верхняя граница в зоне видимости)
+     // 2. Скролл находится ниже элемента (нижняя граница элемента выше скролла)
+     return (
+       scrollTop + windowHeight >= tasteOffset || // Условие видимости
+       scrollTop >= tasteOffset // Скролл ниже элемента
+     );
+   }
+ 
+   function handleScroll() {
+     if (!isTriggered && checkConditions()) {
+       animateTasteItems(); // Вызов целевой функции
+       isTriggered = true; // Запрещаем повторное срабатывание
+       
+       // Если нужно повторное выполнение - удалите эти две строки
+       $(window).off('scroll resize', handleScroll);
+     }
+   }
+ 
+   // Инициализация обработчиков
+   if ($taste.length) {
+     $(window)
+       .on('scroll resize', handleScroll)
+       .trigger('scroll'); // Проверка при загрузке
+   }
+ });
 
 $(document).ready(function(){
  
@@ -119,15 +154,29 @@ document.addEventListener('DOMContentLoaded', () => {
    
    let startTime = Date.now();
    
+	function easeOutQuad(t) {
+		return t * (2 - t);
+	}
+	function customEasing(t) {
+		if (t < 0.5) {
+			// От 0 до 0.5 – линейное движение.
+			return t;
+		} else {
+			const u = (t - 0.5) / 0.5; // u изменяется от 0 до 1
+			return 0.5 + 0.5 * easeOutQuad(u);
+		}
+	}
+
    const animate = () => {
        const elapsed = Date.now() - startTime;
-       const progress = Math.min(elapsed / 2000, 1);
+       const progress = Math.min(elapsed / 4000, 1);
+		const easedProgress = customEasing(progress);
        
        // Анимация обводки path1
-       path1.style.strokeDashoffset = path1Length * (1 - progress);
+       path1.style.strokeDashoffset = path1Length * (1 - easedProgress);
        
        // Анимация движения пчелы
-       const currentLength = progress * path2Length;
+       const currentLength = easedProgress * path2Length;
        const point = path2.getPointAtLength(currentLength);
        
        // Рассчет угла поворота
