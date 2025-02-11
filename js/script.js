@@ -1,4 +1,5 @@
 const PDF_LINK = 'pdf/Раскраска.pdf';
+const MOBILE_WIDTH = 640;
 
 function animateTasteItems() {
    let currentIndex = -1;
@@ -132,23 +133,45 @@ $(document).ready(function(){
 
 
 
+
+// Определние мобильной версии
+let isMobile;
+
+function updateIsMobile() {
+  isMobile = window.innerWidth <= MOBILE_WIDTH;
+  console.log('isMobile:', isMobile); 
+}
+
+
+updateIsMobile();
+
+window.addEventListener('resize', updateIsMobile);
+
+window.isMobile = isMobile;
+
+
+
 // Анимация пчелы
 
 document.addEventListener('DOMContentLoaded', () => {
    const path1 = document.getElementById('path1');
    const path2 = document.getElementById('path2');
+   const path3 = document.getElementById('path3');
+   const animatedPath = isMobile ? path3 : path2;
    const bee = document.getElementById('bee');
+
+
    
    // Рассчитываем длины путей
    const path1Length = path1.getTotalLength();
-   const path2Length = path2.getTotalLength();
+   const animatedPathLength = animatedPath.getTotalLength();
    
    // Настройка анимации для path1
    path1.style.strokeDasharray = path1Length;
    path1.style.strokeDashoffset = path1Length;
    
    // Начальная позиция пчелы
-   const startPoint = path2.getPointAtLength(0);
+   const startPoint = animatedPath.getPointAtLength(0);
    bee.setAttribute('x', startPoint.x - 25);
    bee.setAttribute('y', startPoint.y - 25);
    
@@ -176,12 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
        path1.style.strokeDashoffset = path1Length * (1 - easedProgress);
        
        // Анимация движения пчелы
-       const currentLength = easedProgress * path2Length;
-       const point = path2.getPointAtLength(currentLength);
+       const currentLength = easedProgress * animatedPathLength;
+       const point = animatedPath.getPointAtLength(currentLength);
        
        // Рассчет угла поворота
-       const nextPoint = path2.getPointAtLength(
-           Math.min(currentLength + 1, path2Length)
+       const nextPoint = animatedPath.getPointAtLength(
+           Math.min(currentLength + 1, animatedPathLength)
        );
        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
        
@@ -197,3 +220,4 @@ document.addEventListener('DOMContentLoaded', () => {
    
    requestAnimationFrame(animate);
 });
+
